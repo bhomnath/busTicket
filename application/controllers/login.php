@@ -62,14 +62,8 @@ class Login extends CI_Controller {
     
     
     public function authenticate() {
-        if (isset($_POST['checkMe'])) {
-
-            $this->session->sess_expiration = 60 * 60 * 24 * 7;
-            $this->session->sess_expire_on_close = FALSE;
-        } else {
-            $this->session->sess_expiration = 60 * 60;
-            $this->session->sess_expire_on_close = FALSE;
-        }
+        var_dump($_POST['username']);
+        die('');
 
         $this->load->library('form_validation');
         $this->form_validation->set_rules('userEmail', 'User Email', 'trim|regex_match[/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/]|required|xss_clean');

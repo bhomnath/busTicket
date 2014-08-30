@@ -46,7 +46,25 @@
         }
         else {
            
-           alert('here');
+          $.ajax({
+        type: "POST",
+        url: <?php echo base_url()."index.php/login/authenticate"; ?>,
+        data: {
+            'username': username,
+            'pass': pass
+        },
+        success: function(msg)
+        {
+            alert(msg);
+           // $("#replaceMe").html(msg);
+
+        },
+         complete: function(){
+        $('#loading').hide();
+      }
+    });
+    
+    
         }
         
     });
