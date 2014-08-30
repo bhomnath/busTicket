@@ -1,12 +1,12 @@
 body {
-    background: none repeat scroll 0 0 #f1f1f1;
+    //background: none repeat scroll 0 0 #f1f1f1;
+     background: none repeat scroll 0 0 #368ee0;
     font-family: "Open Sans",sans-serif;
     min-width: 0;
     margin: 0 auto;
     padding: 0px;
 }
 body, html {
-    height: 100%;
     margin: 0;
     padding: 0;
 }
@@ -17,7 +17,7 @@ body, html {
     padding: 20px 10px 10px 10px;
     background: none repeat scroll 0 0 #fff;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.13);
-    margin-top: 12px;
+    margin-top: 11px;
     min-height: 240px;
 }
 #register
@@ -27,9 +27,13 @@ body, html {
 
 #loginFull
 {
-     width: 320px;
+     width: 350px;
      margin: 100px auto 0 auto;
      
+}
+#forgotpass
+{
+    background: none repeat scroll 0 0 #f1f1f1; padding: 25px 0px 25px 0px;
 }
 
 .textInput {
@@ -70,11 +74,11 @@ button, input, select, textarea {
 
 .submit {
     border: 0 none;
-    border-bottom-left-radius: 3px;
-    border-bottom-right-radius: 3px;
+   border-radius: 3px;
     margin: 10px 0px 0px 90px ;
     padding: 0.5em 0;
     width: 80px;
+    background: none repeat scroll 0 0 #368ee0;
    
 }
 #login p, #register p
@@ -110,4 +114,5 @@ a {
 .sucessmsg
 {
     color: red;
+    font-size: 11px;
 }

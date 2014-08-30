@@ -10,7 +10,7 @@ class Login extends CI_Controller {
         $this->load->helper('url');
         $this->load->helper('date');
         $this->load->helper(array('form', 'url', 'date'));
-        $this->load->library("pagination");
+        $this->load->library("pagination", 'form_validation');
     }
     
     public function index()
@@ -20,30 +20,52 @@ class Login extends CI_Controller {
     
         
     public function register() {
-       
+       $this->load->library('form_validation');
+        $this->form_validation->set_rules('username', 'Username', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean');
+         $this->form_validation->set_rules('name', 'Full name', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean');
+        $this->form_validation->set_rules('email', 'Email', 'trim|regex_match[/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/]|required|xss_clean');
+        $this->form_validation->set_rules('pass', 'Password', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|matches[re_pass]|xss_clean');
+         $this->form_validation->set_rules('re_pass', 'Re-Password', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean');
+        if ($this->form_validation->run() == FALSE) {
+           $this->load->view('login/loginForm');
+        } else {
+             if (isset($_POST['username'])){
+            $uname= trim($_POST['username']);}
             
+            if (isset($_POST['email'])) {
+                $email = trim($_POST['email']);  
+            }
+            
+            $userEmail = $this->login_model->check_user($email, $uname);
+           
+            
+            if (!empty($userEmail)) {
+                $data['validation_message'] = "Sorry! User Name or Email already exsists.";
+
+           $this->load->view('login/loginForm', $data);
+            } 
+           
+        else {
        
-            $user_name = $this->input->post('userName');
-            $userfname = $this->input->post('userFirstName');
-            $userlname = $this->input->post('userLastName');
-            $useremail = $this->input->post('userEmail');
+            $username = $this->input->post('username');
+            $fullname = $this->input->post('name');
+            $email = $this->input->post('email');
+            $pass = $this->input->post('pass');
             
 
-            $userpass = $this->input->post('userPass');
-            $loginStatus = "Registered";
-            $loginDate = "Not logged in till";
+          
             
 
-            $this->dbmodel->add_new_user($user_name, $userfname, $userlname, $useremail, $userpass, $loginStatus, $loginDate);
+            $this->login_model->add_new_user($username, $fullname, $email, $pass);
             
              $data = array(
-                    'useremail' => $useremail,
-                    'username' => $user_name,
+                    'useremail' => $email,
+                    'username' => $username,
                     'logged_in' => true);
                 $this->session->set_userdata($data);
-            $this->registerEmail($useremail, $user_name);
+           // $this->registerEmail($email, $username);
             redirect('login/index');
-       
+        } }
     }  
     
     
@@ -62,20 +84,15 @@ class Login extends CI_Controller {
     
     
     public function authenticate() {
-        var_dump($_POST['username']);
-        die('');
-
-        $this->load->library('form_validation');
-        $this->form_validation->set_rules('userEmail', 'User Email', 'trim|regex_match[/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/]|required|xss_clean');
-        $this->form_validation->set_rules('userPass', 'Password', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|callback_check_database');
+            $this->load->library('form_validation');
+        $this->form_validation->set_rules('username', 'Username', 'trim|regex_match[/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/]|required|xss_clean');
+        $this->form_validation->set_rules('pass', 'Password', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|callback_check_database');
         if ($this->form_validation->run() == FALSE) {
-           $this->load->view('template/header');
-            $this->load->view('login/login');
-            $this->load->view('template/reservation_template');
-            $this->load->view('template/footer');
+           $this->load->view('login/loginForm');
         } else {
-            $email= $this->input->post('userEmail');
-            $pass = $this->input->post('userPass'); 
+            $email= $this->input->post('username');
+            $pass = $this->input->post('pass');
+            
            $query = $this->dbmodel->validate_user($email, $pass);
 
             if (!empty($query)) { // if the user's credentials validated...
