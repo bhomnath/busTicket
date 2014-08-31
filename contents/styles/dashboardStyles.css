@@ -13,8 +13,8 @@ body, html {
 }
 
 #navigation {
-    background-color: #368ee0;
-    //background: none repeat scroll 0 0 #368ee0;
+    //background-color: #368ee0;
+    background: none repeat scroll 0 0 #368ee0;
    
    margin: 0px;
    padding: 0px;
@@ -85,13 +85,68 @@ body, html {
         }
 
 
-#logout h5
+#logout p
 {
     float: left;
     margin: 15px 0px 3px 5px;
     color: #fff;
 }
 
+#main
+{
+   padding: 0px;
+   min-height: 400px;
+   float: left;
+   width: 100%;
+}
+#left
+{
+      float: left;
+      width: 15%;
+      min-height: 650px;
+      background-color: #000;
+      margin: 0px;
+      padding: 0px;
+     
+}
+#right
+{
+      float: left;
+      width: 82%;
+      min-height: 650px;
+      //background-color: #ccc;
+      margin: 0px;
+      padding: 0% 0% 0% 3%;
+     
+}
+
+.topLine
+{
+   display: block; 
+   height: 1px;
+   border-top: 3px solid #ccc;
+   margin: 1em 0;
+   padding: 0;
+}
+
+.textInput {
+    font-size: 20px;
+    line-height: 1.5;
+    margin: 2px 6px 16px 0;
+    padding: 3px;
+    width: 250px;
+    background: none repeat scroll 0 0 #fbfbfb;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07) inset;
+    color: #333;
+    transition: border-color 0.05s ease-in-out 0s;
+     outline: 0 none;
+      box-sizing: border-box;
+}
+.textInput:focus{
+   border-color:#5b9dd9; box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, 0.6); outline:0 none;
+}
 
 
 
@@ -106,29 +161,33 @@ body, html {
 
 
 
-
-
-
-
-
-
-/*
+//applicable for menu
+/* Starter CSS for Flyout Menu */
+#cssmenu {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  font-weight: 600;
+  width: 100%;
+  min-height: 100%;
+}
 #cssmenu ul, #cssmenu li {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: inline-block;
+  
 }
 #cssmenu ul {
   position: relative;
   z-index: 597;
+  float: left;
 }
 #cssmenu ul li {
   float: left;
   min-height: 1px;
   line-height: 1em;
   vertical-align: middle;
-  width: 25%;
+  border-bottom: 1px dotted #333;
 }
 #cssmenu ul li.hover,
 #cssmenu ul li:hover {
@@ -157,7 +216,7 @@ body, html {
 #cssmenu ul li {
   float: none;
 }
- Custom Stuff 
+/* Custom Stuff */
 #cssmenu span,
 #cssmenu a {
   display: inline-block;
@@ -165,22 +224,32 @@ body, html {
   text-decoration: none;
 }
 
+#cssmenu:after,
+#cssmenu ul:after {
+  display: block;
+  clear: both;
+}
 
 
-#cssmenu ul
- {
-  width: 65%;
+#cssmenu ul,
+#cssmenu li {
+  width: 100%;
 }
 #cssmenu li {
   background-color: #000;
 }
-#cssmenu li:hover,
+
 #cssmenu li.active {
-  background-color: rgb(111, 150, 216);
+  background-color: #fff;
+  
 }
-#cssmenu li:hover > a,
+
 #cssmenu li.active > a {
-  color: #FFF;
+  color: #000;
+}
+#cssmenu li:hover > a
+{
+    color: #fff;
 }
 #cssmenu a {
   color: #fff;
@@ -195,8 +264,8 @@ body, html {
   background-color: #000;
   border-bottom: 1px dotted #555;
 }
-#cssmenu ul ul li:hover {
-  background-color: rgb(111, 150, 216);
+#cssmenu li:hover,#cssmenu ul ul li:hover {
+  background-color: #368ee0;
 }
 #cssmenu ul ul li a {
   color: #FFF;
@@ -205,4 +274,4 @@ body, html {
 #cssmenu ul ul a span {
   font-size: 14px;
 }
-*/ 
+// now navigation css ends here

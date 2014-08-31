@@ -21,8 +21,8 @@ class Login extends CI_Controller {
         
     public function register() {
        $this->load->library('form_validation');
-        $this->form_validation->set_rules('username', 'Username', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean');
-         $this->form_validation->set_rules('name', 'Full name', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean');
+        $this->form_validation->set_rules('username', 'Username', 'trim|regex_match[/^[a-z,0-9,A-Z _]{5,35}$/]|required|xss_clean');
+         $this->form_validation->set_rules('name', 'Full name', 'trim|regex_match[/^[a-z,0-9,A-Z _]{5,35}$/]|required|xss_clean');
         $this->form_validation->set_rules('email', 'Email', 'trim|regex_match[/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/]|required|xss_clean');
         $this->form_validation->set_rules('pass', 'Password', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|matches[re_pass]|xss_clean');
          $this->form_validation->set_rules('re_pass', 'Re-Password', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean');
