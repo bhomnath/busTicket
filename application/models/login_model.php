@@ -6,9 +6,9 @@ class Login_model extends CI_Model {
         $this->load->database();
     }
     
-     function validate_user($email, $pass) {
+     function validate_user($username, $pass) {
     $password=md5($pass);
-        $this->db->where('email',$email );
+        $this->db->where('user_name',$username );
         $this->db->where('password', $password);
         
         $query = $this->db->get('user_info');

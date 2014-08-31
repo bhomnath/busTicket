@@ -79,6 +79,7 @@ button, input, select, textarea {
     padding: 0.5em 0;
     width: 80px;
     background: none repeat scroll 0 0 #368ee0;
+    color: #fff;
    
 }
 #login p, #register p

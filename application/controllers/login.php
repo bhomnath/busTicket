@@ -85,15 +85,15 @@ class Login extends CI_Controller {
     
     public function authenticate() {
             $this->load->library('form_validation');
-        $this->form_validation->set_rules('username', 'Username', 'trim|regex_match[/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/]|required|xss_clean');
-        $this->form_validation->set_rules('pass', 'Password', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean|callback_check_database');
+        $this->form_validation->set_rules('userName', 'Username', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean');
+        $this->form_validation->set_rules('pass', 'Password', 'trim|regex_match[/^[a-z,0-9,A-Z]{5,35}$/]|required|xss_clean');
         if ($this->form_validation->run() == FALSE) {
            $this->load->view('login/loginForm');
         } else {
-            $email= $this->input->post('username');
+            $username= $this->input->post('userName');
             $pass = $this->input->post('pass');
             
-           $query = $this->dbmodel->validate_user($email, $pass);
+           $query = $this->login_model->validate_user($username, $pass);
 
             if (!empty($query)) { // if the user's credentials validated...
                 foreach ($query as $users) {
@@ -105,39 +105,14 @@ class Login extends CI_Controller {
                     'logged_in' => true);
 
                 $this->session->set_userdata($data);
-                $useremail = $this->session->userdata('useremail');
-                $user = $this->dbmodel->get_user_info($useremail);
-                foreach ($user as $id) {
-                    $user_id = $id->login_status;
-                    $user_email = $id->user_email;
-                }
-                if ($user_id == "Registered") {
-                    $this->load->view('template/header');
-                    $this->load->view('template/welcomeMessage');
-                    $this->load->view('template/imageDiv');
-                    $this->load->view('template/reservation_template');
-                    $this->load->view('template/footer');
-                    $loginStatus = 'Logged In';
-
-                    $this->dbmodel->update_Registered_user_status($user_email, $loginStatus);
-                } else {
-                    $user = $this->dbmodel->get_user_info($userName);
-                    foreach ($user as $id) {
-                        $user_id = $id->login_status;
-                        $user_email = $id->user_email;
-                    }
-                    if ($user_id == "Logged Out") {
-
-                        $loginStatus = 'Logged In';
-                        $this->dbmodel->update_LoggedIn_user_status($user_email, $loginStatus);
-                    }
+                
                     redirect('dashboard/index');
                 }
-            } else { // incorrect username or password
+             else { // incorrect username or password
 
                 $this->session->set_flashdata('message', 'Username or password incorrect');
 
-                redirect('login/loginForm');
+                redirect('login', 'refresh');
             }
         }
     }
