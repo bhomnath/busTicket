@@ -34,6 +34,10 @@ class Login_model extends CI_Model {
          $this->db->insert('user_info', $data);
     }
     
-    
+     public function get_user_info($useremail){
+      $this->db->where('email', $useremail);
+        $query = $this->db->get('user_info');
+        return $query->result();
+ }
     
 }

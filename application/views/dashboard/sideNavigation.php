@@ -14,7 +14,7 @@
 <div id="left">
     <div id='cssmenu'>
 <ul>
-   <li class='active has-sub'><a href="<?php echo base_url().'index.php/dashboard/addNew'; ?>"><span>Add Bus</span></a>
+   <li class='active has-sub'><a href="<?php echo base_url().'index.php/dashboard/addbus'; ?>"><span>Add Bus</span></a>
       <ul>
          <li class='has-sub'><a href="#"><span>Sub Menu1</span></a></li>
          <li class='has-sub'><a href="#"><span>Sub Menu1</span></a></li>
@@ -24,7 +24,7 @@
         <li class='has-sub'><a href="#"><span>Sub Menu1</span></a></li>
       </ul>
    </li>
-   <li class='has-sub'><a href="<?php echo base_url().'index.php/application/index'; ?>"><span>View Buses</span></a>
+   <li class='has-sub'><a href="<?php echo base_url().'index.php/dashboard/busInfo'; ?>"><span>View Buses</span></a>
        <ul>
          <li class='has-sub'><a href="#"><span>Sub Menu1</span></a></li>
          <li class='has-sub'><a href="#"><span>Sub Menu1</span></a></li>

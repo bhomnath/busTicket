@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 31, 2014 at 01:42 AM
+-- Generation Time: Sep 02, 2014 at 01:40 AM
 -- Server version: 5.6.12-log
 -- PHP Version: 5.4.12
 
@@ -25,6 +25,34 @@ USE `bussewa`;
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `bus_info`
+--
+
+CREATE TABLE IF NOT EXISTS `bus_info` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `bus_name` varchar(100) NOT NULL,
+  `bus_number` varchar(25) NOT NULL,
+  `from` varchar(100) NOT NULL,
+  `from_time` varchar(15) NOT NULL,
+  `to` varchar(100) NOT NULL,
+  `to_time` varchar(15) DEFAULT NULL,
+  `route` varchar(200) DEFAULT NULL,
+  `total_seats` varchar(100) NOT NULL,
+  `image` varchar(250) DEFAULT NULL,
+  `user_id` varchar(100) NOT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `bus_info`
+--
+
+INSERT INTO `bus_info` (`Id`, `bus_name`, `bus_number`, `from`, `from_time`, `to`, `to_time`, `route`, `total_seats`, `image`, `user_id`) VALUES
+(1, 'fkcjgkhjk', 'fdkjhgjkd', 'jsdhgjkh', '5.00 am', 'hjkshdjkgh', '5.00 am', 'hbjkfdhgkj', '222', 'C360_2014-08-04-08-29-20-0141.jpg', '1');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `user_info`
 --
 
@@ -36,15 +64,14 @@ CREATE TABLE IF NOT EXISTS `user_info` (
   `password` varchar(50) NOT NULL,
   `user_auth_key` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `user_info`
 --
 
 INSERT INTO `user_info` (`Id`, `user_name`, `full_name`, `email`, `password`, `user_auth_key`) VALUES
-(1, 'homnath', 'jkdshgjkv', 'bhomnath@salyani.com.np', '9fe3ef0f7bab8b8f9c60056e680cd727', NULL),
-(2, 'homnath', 'jkdshgjkv', 'bhomnath@salyani.com.np', '9fe3ef0f7bab8b8f9c60056e680cd727', NULL);
+(1, 'homnath', 'jkdshgjkv', 'bhomnath@salyani.com.np', '9fe3ef0f7bab8b8f9c60056e680cd727', NULL);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
