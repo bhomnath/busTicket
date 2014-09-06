@@ -171,8 +171,28 @@ body, html {
 }
 
 
+  .error_sign
+{
+    font-weight: bolder;
+    padding: 3px 6px;
+    color: white;
+    background:#eb4545;
+    border-radius: 20px;
+}
 
-
+#disablebtnInfo
+{
+    display: none;
+    margin-left: 500px;
+    letter-spacing: 1px;
+    font-size:12px; 
+    border: #eb4545 thin solid;
+    border-radius: 5px;
+    background: whitesmoke;
+    padding: 5px;
+    //float: left;
+    font-weight: bold;
+}
 
 
 

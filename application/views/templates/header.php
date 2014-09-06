@@ -68,7 +68,7 @@
     
     
 $('.image').click(function(){
- 
+  $("#disablebtnInfo").fadeOut(500);
  var id = $(this).attr('id');
     
     if ($(this).attr("class") == "image") {
@@ -87,6 +87,12 @@ $('.image').click(function(){
   
  $('.aaa').click(function(){
   var selected = $("#showSelect").text();
+  if(selected=="" || selected==null || selected==","){
+      $("#disablebtnInfo").html('<span class="error_sign">!</span>&nbsp;' + 'Please select the rooms');
+                $("#disablebtnInfo").fadeIn(1000);
+                return false;
+        }
+        else{
   
   $.ajax({
         type: "POST",
@@ -101,7 +107,7 @@ $('.image').click(function(){
         }
          
     });
- 
+    }
 }); 
 
 
@@ -114,7 +120,7 @@ $('.image').click(function(){
     $left = ($noOfSeats + 1) / 2;
     $right = ($noOfSeats + 1) / 2;
     ?>
-
+<span id="disablebtnInfo"></span>
    <div id="sandbox-container">
                 <span class="add-on">Check In</span>
                 <input name="CheckIn" type="text" required="required" style="width:185px; cursor:pointer;" id="CheckIn">
