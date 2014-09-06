@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 02, 2014 at 01:40 AM
+-- Generation Time: Sep 06, 2014 at 11:23 AM
 -- Server version: 5.6.12-log
 -- PHP Version: 5.4.12
 
@@ -38,6 +38,7 @@ CREATE TABLE IF NOT EXISTS `bus_info` (
   `to_time` varchar(15) DEFAULT NULL,
   `route` varchar(200) DEFAULT NULL,
   `total_seats` varchar(100) NOT NULL,
+  `bus_type` varchar(50) DEFAULT NULL,
   `image` varchar(250) DEFAULT NULL,
   `user_id` varchar(100) NOT NULL,
   PRIMARY KEY (`Id`)
@@ -47,8 +48,30 @@ CREATE TABLE IF NOT EXISTS `bus_info` (
 -- Dumping data for table `bus_info`
 --
 
-INSERT INTO `bus_info` (`Id`, `bus_name`, `bus_number`, `from`, `from_time`, `to`, `to_time`, `route`, `total_seats`, `image`, `user_id`) VALUES
-(1, 'fkcjgkhjk', 'fdkjhgjkd', 'jsdhgjkh', '5.00 am', 'hjkshdjkgh', '5.00 am', 'hbjkfdhgkj', '222', 'C360_2014-08-04-08-29-20-0141.jpg', '1');
+INSERT INTO `bus_info` (`Id`, `bus_name`, `bus_number`, `from`, `from_time`, `to`, `to_time`, `route`, `total_seats`, `bus_type`, `image`, `user_id`) VALUES
+(1, 'fkcjgkhjk', 'fdkjhgjkd', 'jsdhgjkh', '5.00 am', 'hjkshdjkgh', '5.00 am', 'hbjkfdhgkj', '33', 'Deluxe', 'C360_2014-08-04-08-29-20-0141.jpg', '1');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `reservation_info`
+--
+
+CREATE TABLE IF NOT EXISTS `reservation_info` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `bus_id` varchar(15) DEFAULT NULL,
+  `no_of_seats` varchar(10) DEFAULT NULL,
+  `seats_numbers` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `reservation_info`
+--
+
+INSERT INTO `reservation_info` (`Id`, `bus_id`, `no_of_seats`, `seats_numbers`) VALUES
+(3, '1', NULL, 'B6,B5,B7,B8,'),
+(4, '1', NULL, 'B6,B5,B8,B7,');
 
 -- --------------------------------------------------------
 
