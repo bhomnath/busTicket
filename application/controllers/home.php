@@ -17,9 +17,15 @@ class Home extends CI_Controller {
      public function index()
 	{
          $id= "1";
+         $ids = "3";
          $data['busInfo']= $this->dashboard_model->find_bus($id);
-        // $data['reservationInfo'] = $this->dashboard_model->get_booked_seats_info($id);
          
+         $data['reservationInfo'] = $this->dashboard_model->get_booked_seats_info($ids);
+         
+         
+         
+         $data['json'] = json_encode($data['reservationInfo']);
+        // var_dump($data['json']);
 		$this->load->view('templates/header', $data);
                // $this->load->view('dashboard/sideNavigation');
                 

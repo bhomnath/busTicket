@@ -42,14 +42,20 @@ class Dashboard_model extends CI_Model {
     
     public function add_new_booking_seats($seats, $id)
     {
+        $seat = trim($seats);
         $data = array(
             'bus_id' => $id,
-            'seats_numbers' => $seats);
+            'seats_numbers' => $seat);
 
         $this->db->insert('reservation_info', $data);
     }
     
-    
+    public function get_booked_seats_info($id)
+    {
+        $this->db->where('id', $id);
+        $query = $this->db->get('reservation_info');
+        return $query->result();
+    }
     
     
 }
