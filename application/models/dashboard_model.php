@@ -52,10 +52,24 @@ class Dashboard_model extends CI_Model {
     
     public function get_booked_seats_info($id)
     {
-        $this->db->where('id', $id);
+        $this->db->where('bus_id', $id);
         $query = $this->db->get('reservation_info');
         return $query->result();
     }
     
+    function search($value){
+        $this->db->like('from', $value);
+        $this->db->or_like('to', $value);
+        $this->db->or_like('route', $value);
+       $result = $this->db->get('bus_info'); 
+       return $result->result();      
+    }
     
+    public function get_bus_info_by_route($from, $to)
+    {
+         $this->db->where('from', $from);
+         $this->db->where('to', $to);
+        $query = $this->db->get('bus_info');
+        return $query->result();
+    }
 }

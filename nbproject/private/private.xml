@@ -4,7 +4,12 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/wamp/www/busTicket/application/models/dashboard_model.php</file>
+            <file>file:/C:/wamp/www/busTicket/application/views/templates/busSearchresult.php</file>
+            <file>file:/C:/wamp/www/busTicket/application/views/templates/new.php</file>
+            <file>file:/C:/wamp/www/busTicket/application/views/templates/test.php</file>
             <file>file:/C:/wamp/www/busTicket/application/views/dashboard/header.php</file>
+            <file>file:/C:/wamp/www/busTicket/contents/styles/dashboardStyles.css</file>
+            <file>file:/C:/wamp/www/busTicket/contents/styles/styles.css</file>
             <file>file:/C:/wamp/www/busTicket/application/views/templates/header.php</file>
             <file>file:/C:/wamp/www/busTicket/application/controllers/booking.php</file>
             <file>file:/C:/wamp/www/busTicket/application/controllers/dashboard.php</file>

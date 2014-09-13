@@ -17,24 +17,69 @@ class Home extends CI_Controller {
      public function index()
 	{
          $id= "1";
-         $ids = "3";
+
          $data['busInfo']= $this->dashboard_model->find_bus($id);
-         
-         $data['reservationInfo'] = $this->dashboard_model->get_booked_seats_info($ids);
-         
-         
+        
+         $data['reservationInfo'] = $this->dashboard_model->get_booked_seats_info($id);
+         $arr ="";
+         foreach ($data['reservationInfo'] as $reserved)
+             {
+         $arr .= $reserved->seats_numbers;  
+            }
+         $data['reservedRoom'] = explode(',', $arr);
          
          $data['json'] = json_encode($data['reservationInfo']);
-        // var_dump($data['json']);
+       
 		$this->load->view('templates/header', $data);
-               // $this->load->view('dashboard/sideNavigation');
                 
 	
     }
     
+    public function homea(){
+        $this->load->view('templates/new');
+    }
+
+        public function fromQuery(){
+     
+        $userPart = $_POST['userA'];
+        $result = $this->dashboard_model->search($userPart) ;
+     $list = array();
+     foreach ($result as $finaldata)
+     {
+         $data= $finaldata->from;
+         array_push($list, $data);
+     }
+     echo json_encode($list);
+    }      
+    
+    public function toQuery(){
+     
+        $userPart = $_POST['userA'];
+        $result = $this->dashboard_model->search($userPart) ;
+     $list = array();
+     foreach ($result as $finaldata)
+     {
+         $data= $finaldata->to;
+         array_push($list, $data);
+     }
+     echo json_encode($list);
+    } 
     
     
-    
+    public function showBuses()
+    {
+       // $from = $_POST['from'];
+       // $to = $_POST['to'];
+       // $depDate = $_POST['depDate'];
+        
+        $from="kathmandu";
+        $to="pokhara";
+        $depDate="2014-09-12";
+        
+        $data['busInfos']= $this->dashboard_model->get_bus_info_by_route($from, $to);
+        
+         $this->load->view('templates/busSearchresult', $data);
+    }
     
     
     
