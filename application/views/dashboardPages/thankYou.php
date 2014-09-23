@@ -1,0 +1,1 @@
+<h1>Thank You For Your Booking.</h1>

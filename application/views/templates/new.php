@@ -28,6 +28,7 @@
                     data: {'userA': request.term},
                     success: function(msgs)
                     {
+                       // alert(msgs);
                         response(msgs);
                     }
                 });
@@ -608,8 +609,6 @@ var checkout = $('#CheckOut').datepicker({
      <div id="slider-body-slide-above">
     <div class="glass-hero-wrap">
      
-                <input type="radio" selected name="oneround" value="">One Way
-                <input type="radio" name="oneround" value="">Round Trip
                     <div class="ui-widget">
                         <p><label for="from">From:</label><br/>
                        <input class="textInput" placeholder="From" id="from" >
@@ -725,8 +724,8 @@ If your computer or network is protected by a firewall or proxy, make sure that 
     
     
 </body>
-</html
-<!--fro page scroll*/
+
+<!--
 <script>
                                                                 var pagetop, menu, yPos, base_url='<?php //echo base_url(); ?>';
         function yScroll(){
@@ -749,3 +748,4 @@ If your computer or network is protected by a firewall or proxy, make sure that 
         }
         window.addEventListener("scroll", yScroll);​
 </script -->
+</html>

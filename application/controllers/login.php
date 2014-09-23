@@ -98,6 +98,7 @@ class Login extends CI_Controller {
             if (!empty($query)) { // if the user's credentials validated...
                 foreach ($query as $users) {
                     $userName = $users->user_name;
+                    $email = $users->email;
                 }
                 $data = array(
                     'useremail' => $email,

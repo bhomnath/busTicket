@@ -120,9 +120,10 @@ a.samll-font-top-header{
     height: 400px;
     //background: none repeat scroll 0 0 #480eef;
     padding: 0%;
-    opacity: 0.4;
+    opacity: 0.8;
     margin: 103px 0px 0px 0px;
-    background: url('../images/monkey.jpg'); 
+    background: url('../images/bus.jpg'); 
+    background-size: 100%;
 }
 #slider-body-slide-above
 {
@@ -130,8 +131,8 @@ a.samll-font-top-header{
     height: 400px;
     background: none repeat scroll 0 0 #000;
     padding: 0%;
-    opacity: 0.7;
-    margin: -400px 0px 0px 0px;
+    opacity: 0.5;
+    margin: -418px 0px 0px 0px;
      
 }
 #form-side-content-all

@@ -2,8 +2,6 @@
     <head>
         <title>Bus Ticketing</title> 
         <link rel="stylesheet" type="text/css" href="<?php echo base_url() . 'contents/styles/dashboardStyles.css' ?>" />
-         
-    </head>
     <script src="<?php echo base_url() . "contents/scripts/jquery.js"; ?>"></script>
 
 </head>

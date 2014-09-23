@@ -58,7 +58,11 @@
                 </select>
             </label>
         </p>
-
+        <p>
+            <label for="user_pass">Image: <br>
+                <input id="file" class="textInput" type="file" size="20" value="" name="file_name" required>
+            </label>
+        </p>
            
     </div>
     <div style="float: left; width: 300px;">
@@ -92,8 +96,8 @@
         </p>
         
         <p>
-            <label for="user_pass">Image: <br>
-                <input id="file" class="textInput" type="file" size="20" value="" name="file_name" required>
+            <label for="user_pass">Price Per Seat: <br>
+                <input id="seats" class="textInput" type="number" size="20" value="<?php echo set_value('seats'); ?>" name="price" required>
             </label>
         </p> 
         

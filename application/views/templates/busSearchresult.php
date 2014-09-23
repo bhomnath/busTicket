@@ -1,18 +1,21 @@
 <script>
     $(document).ready(function() {
 
-        $('#Sseats').click(function() {
+        $('.Sseats').click(function() {
+            
             var from = $('#from').val();
             var to = $('#to').val();
-            var depDate = $('#fromDate').val();
+            var depDate = $('#depDate').val();
+            var id = $(this).parent().prev().prev().prev().prev().prev('td').parent().attr('id');
 
             $.ajax({
                 type: "POST",
-                url: "<?php echo base_url() . 'index.php/home/index' ?>",
+                url: "<?php echo base_url() . 'index.php/home/selectSeats' ?>",
                 data: {
                     'from': from,
                     'to': to,
-                    'depDate': depDate},
+                    'depDate': depDate,
+                    'busId': id},
                 success: function(msg)
                 {
                     $('#form-side-content-all').css({'display': 'block'});
@@ -41,9 +44,9 @@
 
 <div id="top-from-to-date-show"><table style="border-collapse: collapse; padding: 5px 0px 5px 0px;" width="100%">
         <tr id="checkinStyle">
-            <td><b>From:</b><input type="text" id="checkin" value="Kathmandu" readonly class="textInput" /></td>
-            <td><b>To:</b><input type="text" id="checkout" value="Pokhara" readonly class="textInput"/></td>
-            <td><b>Date:</b><input type="text" id="adult" value="2014-09-12" readonly class="textInput"/></td>      
+            <td><b>From:</b><input type="text" id="from" value="<?php echo $abc['from']; ?>" readonly class="textInput" /></td>
+            <td><b>To:</b><input type="text" id="to" value="<?php echo $abc['to']; ?>" readonly class="textInput"/></td>
+            <td><b>Date:</b><input type="text" id="depDate" value="<?php echo $abc['depDate']; ?>" readonly class="textInput"/></td>      
         </tr>
     </table>
 </div>
@@ -60,6 +63,7 @@
         </tr>
             <?php
             foreach ($busInfos as $buses) {
+                $id= $buses->Id;
                 $busname = $buses->bus_name;
                 $from = $buses->from;
                 $fromTime = $buses->from_time;
@@ -68,13 +72,14 @@
                 $image = $buses->image;
                 $busType = $buses->bus_type;
                 ?>
-                <tr style="background-color: #428bca;text-align: center; border-bottom: 1px solid #ccc;">
+                <tr id="<?php echo $id; ?>" style="background-color: #428bca;text-align: center; border-bottom: 1px solid #ccc;">
+    <input id="hides" type="hidden" value="<?php echo $id; ?>" />
                     <td><?php echo $busname; ?></td>
                     <td><?php echo $busType; ?></td>
                     <td><?php echo $from; ?><?php echo " (" . $fromTime . ")"; ?></td>
                     <td><?php echo $to; ?><?php echo " (" . $toTime . ")"; ?></td>
                     <td><img src="<?php echo base_url().'contents/uploads/'.$image; ?>" alt="" width="80" height="80"/></td>
-                    <td><p style="margin: 0px;">Rs.800.00</p><input type="submit" value="Select Seats" id="Sseats"/></td>
+                    <td><p style="margin: 0px;">Rs.800.00</p><input type="submit" value="Select Seats" class="Sseats"/></td>
 
                 </tr>
 
