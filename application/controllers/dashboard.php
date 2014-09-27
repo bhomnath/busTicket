@@ -115,7 +115,7 @@ class Dashboard extends CI_Controller {
     }
     
     
-    function edit($busid) {
+    function editBus($busid=NULL) {
        if ($this->session->userdata('logged_in')) {
          $useremail = $this->session->userdata('useremail');
             $user = $this->login_model->get_user_info($useremail);
@@ -135,7 +135,7 @@ class Dashboard extends CI_Controller {
     
     
     
-     public function delete($id) {
+     public function deleteBus($id=NULL) {
        if ($this->session->userdata('logged_in')) {
          $useremail = $this->session->userdata('useremail');
             $user = $this->login_model->get_user_info($useremail);
@@ -159,39 +159,8 @@ class Dashboard extends CI_Controller {
             foreach ($user as $id) {
                 $user_id = $id->Id;
             }
-            
-             /* for pagination */
-            $config = array();
-            $config["base_url"] = base_url() . "index.php/dashboard/bookingInfo";
-            $config["total_rows"] = $this->dashboard_model->record_count_all_booking_info($user_id);
-            $config["per_page"] = 6;
-            $this->pagination->initialize($config);
-            $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-            $config["num_links"] = $config["total_rows"] / $config["per_page"];
-            $config['full_tag_open'] = '<ul class="tsc_pagination tsc_paginationA tsc_paginationA01">';
-            $config['full_tag_close'] = '</ul>';
-            $config['prev_link'] = 'First';
-            $config['prev_tag_open'] = '<li>';
-            $config['prev_tag_close'] = '</li>';
-            $config['next_link'] = 'Next';
-            $config['next_tag_open'] = '<li>';
-            $config['next_tag_close'] = '</li>';
-            $config['cur_tag_open'] = '<li class="current"><a href="#">';
-            $config['cur_tag_close'] = '</a></li>';
-            $config['num_tag_open'] = '<li>';
-            $config['num_tag_close'] = '</li>';
-            $config['first_tag_open'] = '<li>';
-            $config['first_tag_close'] = '</li>';
-            $config['last_tag_open'] = '<li>';
-            $config['last_tag_close'] = '</li>';
-            $config['first_link'] = '&lt;&lt;';
-            $config['last_link'] = '&gt;&gt;';
-            $this->pagination->initialize($config);
-            /* pagination ends here */
-  $data['bookingInfo'] = $this->dashboard_model->get_booking_info($config["per_page"], $page, $user_id);
-  $config['display_pages'] = FALSE;
-            $data["links"] = $this->pagination->create_links();
-            
+  $data['bookingInfo'] = $this->dashboard_model->get_booking_info($user_id);
+   $data['buses'] = $this->dashboard_model->get_all_buses_of_user($user_id);
             $this->load->view('dashboard/header');
                 $this->load->view('dashboard/sideNavigation');
                 $this->load->view('dashboardPages/viewBooking', $data);
@@ -200,6 +169,119 @@ class Dashboard extends CI_Controller {
         }
     }
     
+    public function getBookingInfo()
+    {if ($this->session->userdata('logged_in')) {
+         $useremail = $this->session->userdata('useremail');
+            $user = $this->login_model->get_user_info($useremail);
+            foreach ($user as $id) {
+                $user_id = $id->Id;
+            }
+       $booking = $this->dashboard_model->get_booking_info($user_id);
+       foreach ($booking as &$books)
+       {
+           $noOfSeats = $books->no_of_seats;
+           $payment = $books->payment_status;
+           if($payment==NULL || $payment==""){$payStat='Not Paid'; } else {$payStat=$payment;  }
+           $busId= $books->bus_id;
+           $busInfo = $this->dashboard_model->find_bus($busId);
+           foreach ($busInfo as $bus)
+           {
+               $name = $bus->bus_name;
+               $number = $bus->bus_number;
+               $price = $bus->price_per_seat;
+           }
+           $books->busName = $name;
+           $books->busNumber = $number;
+           $books->pricePSeat = $price;
+           $books->totalPrice = $noOfSeats*$price;
+           $books->payStat = $payStat;
+       }
+        unset($books);
+        $json_response = json_encode($booking); 
+        echo $json_response; 
+        }else {
+            redirect('login', 'refresh');
+        }
+    }
+
+    public function editBooking($id=NULL)
+    {
+        if ($this->session->userdata('logged_in')) {
+         $useremail = $this->session->userdata('useremail');
+            $user = $this->login_model->get_user_info($useremail);
+            foreach ($user as $ids) {
+                $user_id = $ids->Id;
+            }
+            $data['bookingInfo'] = $this->dashboard_model->get_booking_info_by_user_id_and_booking_id($id, $user_id);
+          
+            $this->load->view('dashboard/header');
+            $this->load->view('dashboard/sideNavigation');
+             $this->load->view('dashboardPages/editBooking', $data);
+            
+            }else {
+            redirect('login', 'refresh');
+        }
+    }
+    
+    public function updateBooking()
+    {
+         if ($this->session->userdata('logged_in')) {
+         $useremail = $this->session->userdata('useremail');
+            $user = $this->login_model->get_user_info($useremail);
+            foreach ($user as $ids) {
+                $user_id = $ids->Id;
+            }
+       $id= $this->input->post('bookingId'); 
+      $data['bookingInfo'] = $this->dashboard_model->get_booking_info_by_user_id_and_booking_id($id, $user_id);
+      if(!empty($data['bookingInfo'])){
+        foreach ($data['bookingInfo'] as $booker){
+       $id = $booker->Id;
+      $busId = $booker->bus_id; }}
+      
+      $payment = $this->input->post('payment'); 
+      $amtGiven = $this->input->post('amtPaid');
+      $amtRet = $this->input->post('amtToRet');
+       $return = $this->input->post('return');
+       
+       if($payment==null){
+           $data['error']="Please select paid or not paid";
+          $this->load->view('dashboard/header');
+            $this->load->view('dashboard/sideNavigation');
+             $this->load->view('dashboardPages/editBooking', $data);
+       }
+       else{
+       if(($amtGiven==null || $amtGiven=="" || $return==null) && $payment=="Paid"){
+           $data['error']="Please fill amount given and select returned or not paid";
+          $this->load->view('dashboard/header');
+            $this->load->view('dashboard/sideNavigation');
+             $this->load->view('dashboardPages/editBooking', $data);
+       }
+       else{    
+           $this->dashboard_model->update_booking_price_status_amt_given($user_id, $id, $payment, $amtGiven, $amtRet, $return); 
+            $this->session->set_flashdata('message', 'Data Updated Sucessfully');
+            redirect('dashboard/bookingInfo', 'refresh');
+       }}
+         }else {
+            redirect('login', 'refresh');
+        }
+    }
+    
+    public function deleteBooking($id=NULL)
+    {
+        if ($this->session->userdata('logged_in')) {
+         $useremail = $this->session->userdata('useremail');
+            $user = $this->login_model->get_user_info($useremail);
+            foreach ($user as $ids) {
+                $user_id = $ids->Id;
+            }
+          $this->dashboard_model->delete_booking_id($id, $user_id);
+            $this->session->set_flashdata('message', 'Data Deleted Sucessfully');
+            redirect('dashboard/bookingInfo', 'refresh');    
+         }else {
+            redirect('login', 'refresh');
+        }          
+    }
+
     public function searchBooking()
     {
         if(isset($_POST['busNo']))

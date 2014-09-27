@@ -1,8 +1,13 @@
-<html>
+<html ng-app="myApp" ng-app lang="en">
+    <meta charset="utf-8">
+    <style type="text/css">
+    ul>li, a{cursor: pointer;}
+    </style>
     <head>
         <title>Bus Ticketing</title> 
         <link rel="stylesheet" type="text/css" href="<?php echo base_url() . 'contents/styles/dashboardStyles.css' ?>" />
-    <script src="<?php echo base_url() . "contents/scripts/jquery.js"; ?>"></script>
+   <link href="<?php echo base_url() . 'contents/bootstrap/css/bootstrap.min.css' ?>" rel="stylesheet">
+   <script src="<?php echo base_url() . "contents/scripts/jquery.js"; ?>"></script>
 
 </head>
 <body>

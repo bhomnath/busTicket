@@ -49,8 +49,8 @@
             <td><?php echo $seats; ?></td>
             <td><img src="<?php echo base_url() . '/contents/uploads/' . $image; ?>" width="50" height="50"></td> 
             <td>
-                <?php echo anchor('dashboard/edit/'.$id,'<img src="'.  base_url().'contents/images/edit.png"  alt="Edit" class="edit_room">'); ?>&nbsp;&nbsp;&nbsp;/
-                <?php echo anchor('dashboard/delete/'.$id,'<img src="'.  base_url().'contents/images/delete.png" alt="Delete" class="delete_room">'); ?>
+                <?php echo anchor('dashboard/editBus/'.$id,'<img src="'.  base_url().'contents/images/edit.png"  alt="Edit" class="edit_room">'); ?>&nbsp;&nbsp;&nbsp;/
+                <?php echo anchor('dashboard/deleteBus/'.$id,'<img src="'.  base_url().'contents/images/delete.png" alt="Delete" class="delete_room">'); ?>
             </td>
             
         </tr>

@@ -514,8 +514,8 @@ $( ".datepicker" ).datepicker();
         <div style="width: 25%; float: left; font-size: 1.1em;">
             <p><label for="from">Bus Number:</label><br/>
                 <select class="textInput" name="selectMenu"  id="selectBox">
-              <?php if(!empty($busInfo)){
-               foreach($busInfo as $datas)
+              <?php if(!empty($buses)){
+               foreach($buses as $datas)
                {     ?>
                <option value="<?php echo $datas->Id; ?>">
                    <?php echo $datas->bus_name.' '.$datas->bus_number; ?>
@@ -535,75 +535,119 @@ $( ".datepicker" ).datepicker();
         <input style="margin-top: 45px;" type="submit" value="Search Booking" id="searchbbutton" class="send"/>
     </div>  
     <div class="clear"></div>
-    
-    
-    
- <div id="tableView">  
- <?php if(!empty($bookingInfo));{ ?>   
-   <style>
-    #tableView table, #tableView th, #tableView td{
-      border-collapse: collapse; border: 1px solid #000;  
-    }
-    #tableView td, #tableView th{
-        padding: 5px;
-    }
-    </style>  <table width="100%">
-        <tr style="border-bottom: 1px solid #ccc; text-align: left; background-color: #000; color: #fff;">
-            <th>Passenger Name</th>
+      
+    <div ng-controller="customersCrtl">
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-2">PageSize:
+            <select ng-model="entryLimit" class="form-control">
+                <option>5</option>
+                <option>10</option>
+                <option>20</option>
+                <option>50</option>
+                <option>100</option>
+            </select>
+        </div>
+        <div class="col-md-3">Filter:
+            <input type="text" ng-model="search" ng-change="filter()" placeholder="Filter" class="form-control" />
+        </div>
+        <div class="col-md-4">
+            <h5>Filtered {{ filtered.length }} of {{ totalItems}} total customers</h5>
+        </div>
+    </div>
+    <br/>
+    <div class="row">
+        <div class="col-md-12" ng-show="filteredItems > 0">
+            <table class="table table-striped table-bordered">
+            <thead>
+              <th>Passenger Name</th>
             <th>From - To</th>
             <th>Date</th>
             <th>Booked Seats</th>
             <th>Price Per Seat</th>
             <th>Total Price</th>
-            <th>Bus Name/Number</th>
+            <th>Bus Name/<br/>Number</th>
+            <th>Payment</th>
             <th>Action</th>
-        </tr>
-   <?php foreach ($bookingInfo as $booker){
-       $id = $booker->Id;
-       $name = $booker->Booking_person_name;
-       $from = $booker->departing_from;
-       $to = $booker->departing_to;
-       $date = $booker->depart_date;
-       $seats = $booker->seats_numbers;
-       $result = count(explode(',',$seats));
-       $noOfSeats = $result - 1;
-       $busId = $booker->bus_id;
-       
-       $busInforms = $this->dashboard_model->find_bus($busId);
-                    foreach ($busInforms as $data){
-                     $busname= $data->bus_name;
-                     $number = $data->bus_number;
-                     $price = $data->price_per_seat;
-                        }
-       ?>
-   
-        <tr style="border-bottom: 1px solid #ccc; text-align: left;">
-            <td><?php echo $name; ?></td>
-            <td><?php echo $from; ?><br/><?php echo $to; ?></td>
-            <td><?php echo $date; ?></td>
-            <td><?php echo $seats; ?></td>
-            <td><?php echo 'Rs.'.$price; ?></td>
-            <td><?php echo 'Rs.'.$price*$noOfSeats; ?></td>
-            <td><?php echo $busname ."<br/>". $number; ?></td> 
-            <td>
-                <?php echo anchor('dashboard/edit/'.$id,'<img src="'.  base_url().'contents/images/edit.png"  alt="Edit" class="edit_book">'); ?>&nbsp;&nbsp;&nbsp;/
-                <?php echo anchor('dashboard/delete/'.$id,'<img src="'.  base_url().'contents/images/delete.png" alt="Delete" class="delete_book">'); ?>&nbsp;&nbsp;&nbsp;/
-                <a href="javascript: w=window.open('<?php echo base_url(); ?>index.php/prtscreen/printTicket/<?php echo $id; ?>'); w.print(); w.close(); "><img src="'.  base_url().'contents/images/delete.png" alt="Print" class="print_book"></a>    
-            </td>
-            
-        </tr>
-   <?php } ?>
-    </table>     
-        
-        
- <?php } ?>
- </div>
-     <?php if (strlen($links) > 2) { ?>
-        <div class="pagination">
-            <?php echo $links; ?>
+            </thead>
+            <tbody>
+                <tr ng-repeat="data in filtered = (list | filter:search | orderBy : predicate :reverse) | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit">
+                    <td>{{data.Booking_person_name}}</td>
+                    <td>{{data.departing_from}}&nbsp;-<br/>{{data.departing_to}}</td>
+                    <td>{{data.depart_date}}</td>
+                    <td>{{data.seats_numbers}}<br/>({{data.no_of_seats}})</td>
+                    <td>{{data.pricePSeat}}</td>
+                    <td>{{data.totalPrice}}</td>
+                    <td>{{data.busName}}&nbsp;/<br/>{{data.busNumber}}</td>
+                    <td>{{data.payStat}}</td>
+                    <td><a href="<?php echo base_url().'index.php/editBooking/';?>{{data.Id}}"><img src="<?php echo base_url().'contents/images/delete.png'; ?>" alt="Edit" class="delete_book" /></a><br/>
+                        <a href="<?php echo base_url().'index.php/editBooking/';?>{{data.Id}}"><img src="<?php echo base_url().'contents/images/delete.png' ?>" alt="Delete" class="delete_book" /></a><br/>
+                
+                        <a href="<?php echo base_url().'index.php/prtscreen/printTicket/'; ?>{{data.Id}}" target="_blank" ><img src="'.  base_url().'contents/images/delete.png" alt="Print" class="print_book"></a>    
+                    </td>
+                </tr>
+            </tbody>
+            </table>
         </div>
-    <?php } ?>  
+        <div class="col-md-12" ng-show="filteredItems == 0">
+            <div class="col-md-12">
+                <h4>No customers found</h4>
+            </div>
+        </div>
+        <div class="col-md-12" ng-show="filteredItems > 0">    
+            <div pagination="" page="currentPage" on-select-page="setPage(page)" boundary-links="true" total-items="filteredItems" items-per-page="entryLimit" class="pagination-small" previous-text="&laquo;" next-text="&raquo;"></div>
+            
+            
+        </div>
+    </div>
 </div>
 </div>
+   
+
+<script src="<?php echo base_url().'contents/scripts/angular.min.js'; ?>"></script>
+<script src="<?php echo base_url().'contents/scripts/ui-bootstrap-tpls-0.10.0.min.js'; ?>"/></script>  
+<script>
+        var app = angular.module('myApp', ['ui.bootstrap']);
+
+app.filter('startFrom', function() {
+    return function(input, start) {
+        if(input) {
+            start = +start; //parse to int
+            return input.slice(start);
+        }
+        return [];
+    };
+});
+app.controller('customersCrtl', function ($scope, $http, $timeout) {
+    $http.get('<?php echo base_url().'index.php/dashboard/getBookingInfo'; ?>').success(function(data){
+        
+        $scope.list = data;
+        $scope.currentPage = 1; //current page
+        $scope.entryLimit = 5; //max no of items to display in a page
+        $scope.filteredItems = $scope.list.length; //Initially for no filter  
+        $scope.totalItems = $scope.list.length;
+    });
+    
+    $scope.setPage = function(pageNo) {
+        $scope.currentPage = pageNo;
+    };
+    $scope.filter = function() {
+        $timeout(function() { 
+            $scope.filteredItems = $scope.filtered.length;
+        }, 10);
+    };
+    $scope.sort_by = function(predicate) {
+        $scope.predicate = predicate;
+        $scope.reverse = !$scope.reverse;
+    };    
+});
+
+        </script>  
+   
+ </div>  
+</div>
+</div>
+
 </body>
 </html>

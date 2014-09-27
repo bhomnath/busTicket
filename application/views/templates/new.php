@@ -605,8 +605,8 @@ var checkout = $('#CheckOut').datepicker({
         <div class="clear"></div>
         <!-- here -->
         
-        <div id="slider-body-slide-top"></div>
-     <div id="slider-body-slide-above">
+        <div id="slider-body-slide-above"></div>
+     <div id="slider-body-slide-top">
     <div class="glass-hero-wrap">
      
                     <div class="ui-widget">

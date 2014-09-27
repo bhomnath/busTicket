@@ -40,7 +40,24 @@ class Dashboard_model extends CI_Model {
 
         $this->db->delete('bus_info', array('id' => $id));
     }
-    
+    public function delete_booking_id($id, $user_id) {
+         $data = array(
+            'booking_status' => "Deleted");
+        $this->db->where('id', $id);
+        $this->db->where('user_id', $user_id);
+        $this->db->update('reservation_info', $data);
+    }
+    public function update_booking_price_status_amt_given($user_id, $id, $payment, $amtGiven, $amtRet, $return)
+    {
+        $data = array(
+            'payment_status' => $payment,
+            'amount_paid' => $amtGiven,
+            'return_status' => $return);
+        $this->db->where('id', $id);
+        $this->db->where('user_id', $user_id);
+        $this->db->update('reservation_info', $data);
+    }
+
     public function add_new_booking_seats($busId, $seats,$from, $to, $depDate, $name, $address, $email, $phone, $remarks)
     {
         $seat = trim($seats);
@@ -59,10 +76,29 @@ class Dashboard_model extends CI_Model {
         $this->db->insert('reservation_info', $data);
     }
     
+    public function get_booking_info_by_user_id_and_booking_id($id, $user_id)
+    {
+        $this->db->where('Id', $id);
+        $this->db->where('user_id', $user_id);
+        $this->db->where('booking_status', 'Active');
+        $query = $this->db->get('reservation_info');
+        return $query->result();
+    }
+
+    public function get_all_passengers_list()
+    {
+         $this->db->where('booking_status', 'Active');
+        $query = $this->db->get('reservation_info');
+        return $query->result();
+    }
+
+    
+
     public function get_booked_seats_info($id, $depDate)
     {
         $this->db->where('bus_id', $id);
         $this->db->where('depart_date', $depDate);
+        $this->db->where('booking_status', 'Active');
         $query = $this->db->get('reservation_info');
         return $query->result();
     }
@@ -85,10 +121,10 @@ class Dashboard_model extends CI_Model {
         return $query->result();
     }
     
-    public function get_booking_info($per_page, $start, $user_id)
+    public function get_booking_info($user_id)
     {
-         $this->db->limit($per_page, $start);
         $this->db->where('user_id', $user_id);
+        $this->db->where('booking_status', 'Active');
         $query = $this->db->get('reservation_info');
         return $query->result();
     }
@@ -96,6 +132,7 @@ class Dashboard_model extends CI_Model {
     public function record_count_all_booking_info($user_id)
     {
         $this->db->where('user_id', $user_id);
+        $this->db->where('booking_status', 'Active');
         $this->db->from("reservation_info");
         return $this->db->count_all_results();
     }
@@ -103,6 +140,7 @@ class Dashboard_model extends CI_Model {
         public function get_booking_info_by_id($id)
     {
          $this->db->where('Id', $id);
+         $this->db->where('booking_status', 'Active');
         $query = $this->db->get('reservation_info');
         return $query->result();
     }
@@ -110,6 +148,7 @@ class Dashboard_model extends CI_Model {
     {
         $this->db->where('bus_id', $busId);
         $this->db->where('depart_date', $depDate);
+        $this->db->where('booking_status', 'Active');
         $query = $this->db->get('reservation_info');
         return $query->result();
     }

@@ -1,4 +1,9 @@
-<?php if(!empty($bookingInfo)){
+<script>
+    window.onload = function () {
+  window.print();
+  setTimeout(function(){window.close();}, 1);
+} 
+</script>    <?php if(!empty($bookingInfo)){
  foreach ($bookingInfo as $bookingP)
  {
      $name = $bookingP->Booking_person_name;
