@@ -581,8 +581,8 @@ $( ".datepicker" ).datepicker();
                     <td>{{data.totalPrice}}</td>
                     <td>{{data.busName}}&nbsp;/<br/>{{data.busNumber}}</td>
                     <td>{{data.payStat}}</td>
-                    <td><a href="<?php echo base_url().'index.php/editBooking/';?>{{data.Id}}"><img src="<?php echo base_url().'contents/images/delete.png'; ?>" alt="Edit" class="delete_book" /></a><br/>
-                        <a href="<?php echo base_url().'index.php/editBooking/';?>{{data.Id}}"><img src="<?php echo base_url().'contents/images/delete.png' ?>" alt="Delete" class="delete_book" /></a><br/>
+                    <td><a href="<?php echo base_url().'index.php/dashboard/editBooking/';?>{{data.Id}}"><img src="<?php echo base_url().'contents/images/delete.png'; ?>" alt="Edit" class="delete_book" /></a><br/>
+                        <a href="<?php echo base_url().'index.php/dashboard/editBooking/';?>{{data.Id}}"><img src="<?php echo base_url().'contents/images/delete.png' ?>" alt="Delete" class="delete_book" /></a><br/>
                 
                         <a href="<?php echo base_url().'index.php/prtscreen/printTicket/'; ?>{{data.Id}}" target="_blank" ><img src="'.  base_url().'contents/images/delete.png" alt="Print" class="print_book"></a>    
                     </td>
