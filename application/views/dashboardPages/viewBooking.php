@@ -494,7 +494,11 @@ $( ".datepicker" ).datepicker();
 </script>
 
 <div id="right">
-<h4>Add New Bus&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="<?php echo base_url() . 'index.php/dashboard/busInfo'; ?>">View Buses</a></h4><hr class="topLine" />
+<h4>View Booking&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="<?php echo base_url() . 'index.php/dashboard/newBooking'; ?>">Add New Booking</a></h4>
+
+
+
+<hr class="topLine" />
 
     <!-- hotel selection -->
     <div class="sucessmsg"> 
@@ -537,7 +541,6 @@ $( ".datepicker" ).datepicker();
     <div class="clear"></div>
       
     <div ng-controller="customersCrtl">
-<div class="container">
 
     <div class="row">
         <div class="col-md-2">PageSize:
@@ -553,22 +556,23 @@ $( ".datepicker" ).datepicker();
             <input type="text" ng-model="search" ng-change="filter()" placeholder="Filter" class="form-control" />
         </div>
         <div class="col-md-4">
-            <h5>Filtered {{ filtered.length }} of {{ totalItems}} total customers</h5>
+            <h5>Filtered {{ filtered.length }} of {{ totalItems}} total passengers data</h5>
         </div>
     </div>
     <br/>
     <div class="row">
         <div class="col-md-12" ng-show="filteredItems > 0">
-            <table class="table table-striped table-bordered">
+            <table width='95%' class="table table-striped table-bordered">
             <thead>
-              <th>Passenger Name</th>
+            <th>Passenger Name</th>
             <th>From - To</th>
             <th>Date</th>
             <th>Booked Seats</th>
             <th>Price Per Seat</th>
             <th>Total Price</th>
-            <th>Bus Name/<br/>Number</th>
+            <th>Bus Name/ Number</th>
             <th>Payment</th>
+            
             <th>Action</th>
             </thead>
             <tbody>
@@ -577,14 +581,14 @@ $( ".datepicker" ).datepicker();
                     <td>{{data.departing_from}}&nbsp;-<br/>{{data.departing_to}}</td>
                     <td>{{data.depart_date}}</td>
                     <td>{{data.seats_numbers}}<br/>({{data.no_of_seats}})</td>
-                    <td>{{data.pricePSeat}}</td>
-                    <td>{{data.totalPrice}}</td>
-                    <td>{{data.busName}}&nbsp;/<br/>{{data.busNumber}}</td>
-                    <td>{{data.payStat}}</td>
-                    <td><a href="<?php echo base_url().'index.php/dashboard/editBooking/';?>{{data.Id}}"><img src="<?php echo base_url().'contents/images/delete.png'; ?>" alt="Edit" class="delete_book" /></a><br/>
-                        <a href="<?php echo base_url().'index.php/dashboard/editBooking/';?>{{data.Id}}"><img src="<?php echo base_url().'contents/images/delete.png' ?>" alt="Delete" class="delete_book" /></a><br/>
-                
-                        <a href="<?php echo base_url().'index.php/prtscreen/printTicket/'; ?>{{data.Id}}" target="_blank" ><img src="'.  base_url().'contents/images/delete.png" alt="Print" class="print_book"></a>    
+                    <td>{{data.price_per_seat}}</td>
+                    <td>{{(data.price_per_seat)*(data.no_of_seats)}}</td>
+                    <td>{{data.bus_name}}&nbsp;/<br/>{{data.bus_number}}</td>
+                    <td>{{data.payment_status}}</td>
+                   
+                    <td><a title="Edit" href="<?php echo base_url().'index.php/dashboard/editBooking/';?>{{data.Id}}"><span class="icon-pencil"></span></a><br/>
+                        <a title="Delete" href="<?php echo base_url().'index.php/dashboard/deleteBooking/';?>{{data.Id}}"><span class="icon-remove2"></span></a><br/>
+                        <a title="Print" href="<?php echo base_url().'index.php/prtscreen/printTicket/'; ?>{{data.Id}}" target="_blank" ><span class="icon-file2"></span></a>    
                     </td>
                 </tr>
             </tbody>
@@ -601,7 +605,6 @@ $( ".datepicker" ).datepicker();
             
         </div>
     </div>
-</div>
 </div>
    
 

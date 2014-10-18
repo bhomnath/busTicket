@@ -17,7 +17,7 @@
     </div>
     
     
-    <?php $time= array('5.00 am', '5.30 am', '6.00 am', '6.30 am', '7.00 am', '7.30 am', '8.00 am', '8.30 am', '9.00 am', '9.30 am');
+    <?php $time= array('5.00 am', '5.30 am', '6.00 am', '6.30 am', '7.00 am', '7.30 am', '8.00 am', '8.30 am', '9.00 am', '9.30 am', '10.00am', '10.30am', '11.00am', '11.30am', '12.00 noon', '12.30pm', '1.00pm', '1.30pm', '2.00pm', '2.30pm', '3.00pm', '3.30pm', '4.00pm', '4.30pm', '5.00pm', '5.30pm');
           $busType = array('Deluxe', 'A/C')   ?>
     <?php echo form_open_multipart('dashboard/addNewBus'); ?>
 
@@ -53,7 +53,7 @@
 
         <p>
             <label for="user_pass">Type: <br>
-                <select id="fromTime" name="fromTime" class="textInput"><?php foreach ($busType as $data){ ?>
+                <select id="busType" name="busType" class="textInput"><?php foreach ($busType as $data){ ?>
                 <option value="<?php echo $data; ?>"><?php echo $data; ?></option> <?php } ?>
                 </select>
             </label>

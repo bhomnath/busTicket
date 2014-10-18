@@ -17,7 +17,8 @@ class Home extends CI_Controller {
     
     
     public function index(){
-        $this->load->view('templates/new');
+     $this->load->view('templates/bootstrap');
+     
     }
 
         public function fromQuery(){
@@ -44,7 +45,8 @@ class Home extends CI_Controller {
          $data= $finaldata->to;
          array_push($list, $data);
      }
-     echo json_encode($list);
+     $query = array_unique($list);
+     echo json_encode($query);
     } 
     
     
@@ -194,12 +196,23 @@ class Home extends CI_Controller {
         {
             $phone= $_POST['phone'];
         }
+        if(isset($_POST['food']))
+        {
+            $food= $_POST['food'];
+        }
         if(isset($_POST['remarks']))
         {
             $remarks= $_POST['remarks'];
         }
-        
-         $this->dashboard_model->add_new_booking_seats($busId, $seats,$from, $to, $depDate, $name, $address, $email, $phone, $remarks);
+        $se = explode(',', $seats);
+        $no = count($se);
+        $no_of_seat = $no - "1";
+        $user = $this->dashboard_model->get_user_by_bus_id($busId);
+        foreach ($user as $users)
+        {
+            $user_id = $users-> user_id;
+        }
+         $this->dashboard_model->add_new_booking_seats($busId, $user_id, $no_of_seat, $seats,$from, $to, $depDate, $name, $address, $email, $phone,$food, $remarks);
          $this->bookingEmail($busName, $name, $from, $to, $depDate, $seats, $email);
        $this->load->view('templates/thankYou');
           }
@@ -211,5 +224,27 @@ class Home extends CI_Controller {
    $message = seat_book_email($busName, $name, $from, $to, $depDate, $seats, $imglink);       
     send_seat_book_email($email,$subject,$message);      
  }
+ 
+ public function addMsg()
+ {
+     if(isset($_POST['name']))
+        {
+            $name= $_POST['name'];
+        }
+        if(isset($_POST['email']))
+        {
+            $email= $_POST['email'];
+        }
+        if(isset($_POST['message']))
+        {
+            $msg= $_POST['message'];
+        }
+        $this->dashboard_model->add_new_query($name, $email, $msg);
+        echo 'Thank you for your message !';
+ }
+ 
     
+ 
+ 
+ 
 }

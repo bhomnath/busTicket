@@ -540,7 +540,7 @@
 </script>
 <div id="right">
     <h4>Add New Booking&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="<?php echo base_url() . 'index.php/dashboard/bookingInfo'; ?>">View Booking</a></h4><hr class="topLine" />
-    <span id="disablebtnInfo"></span>
+    
     <!-- hotel selection -->
     <div class="sucessmsg"> 
         <?php
@@ -565,7 +565,7 @@
                 <input  class="textInput" id="CheckIn" type="text" value="" readonly="" name="CheckIn">
             </p>
         </div>
-        <input style="margin-top: 45px;" type="submit" value="Search Bus" id="searchbbutton" class="send"/>
+        <input style="margin-top: 45px;" type="submit" value="Continue Booking" id="searchbbutton" class="send"/>
     </div>  
     <div class="clear"></div>
     <div id="select-seats-dashboard"></div>

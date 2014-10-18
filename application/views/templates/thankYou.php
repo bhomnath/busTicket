@@ -1,10 +1,27 @@
-<style>
-    #top-search-result-full
-    {width: 100%; height: 80px; background-color: #428bca; margin: 0 auto 0 auto; border-bottom: 1px solid #ddd;}
-    #top-from-to-date-show
-    {height: 90px; margin: 0px; padding: 1% 3% 1% 3%; width: 90%;}
-</style>
-<div id="top-search-result-full">
-    <h1 style="text-align: center; margin: 0px; color: #fff; padding: 15px 0px 10px 0px;">Thank You</h1>
-</div>
-<h1>Thank You For Your Booking.</h1>
+ <div class="modal-dialog" style="width:80%; margin:106px auto; font-size: 18px;">
+            <div class="modal-content">
+                <div class="modal-header" style="margin:0 auto 0 auto; background-color:#269abc;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h2 class="modal-title" style="margin:0 auto 0 auto; text-align: center; color: #fff;">Bus Search Result >> Thank You.</h2>
+                </div>
+                
+                <div class="modal-body" style="width:80%; margin: 0 auto 0 auto;">
+                    <div class="alert alert-success">
+                        
+                                
+
+                                <strong>Congratulations ! </strong><span>You have successfully booked your seats through our booking system. Confirmation email has just been to sent your email, please check your email inbox for more details about your booking. Booking seats from here you have accepted the terms and conditions that apply.</span>
+
+                </div>
+ 
+                  
+                                 
+                    
+                </div>
+                
+                    
+
+                
+            </div>
+        </div>
+   

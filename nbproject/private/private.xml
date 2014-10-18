@@ -3,11 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/wamp/www/busTicket/application/views/templates/new.php</file>
-            <file>file:/C:/wamp/www/busTicket/application/views/dashboard/sideNavigation.php</file>
-            <file>file:/C:/wamp/www/busTicket/application/views/dashboardPages/viewBooking.php</file>
-            <file>file:/C:/wamp/www/busTicket/application/views/dashboardPages/testPagination.php</file>
-            <file>file:/C:/wamp/www/busTicket/application/controllers/dashboard.php</file>
+            <file>file:/C:/wamp/www/busTicket/contents/styles/boot.css</file>
+            <file>file:/C:/wamp/www/busTicket/application/views/templates/bootstrap.php</file>
+            <file>file:/C:/wamp/www/busTicket/application/views/templates/selectSeats.php</file>
+            <file>file:/C:/wamp/www/busTicket/application/views/templates/personalInfo.php</file>
         </group>
     </open-files>
 </project-private>

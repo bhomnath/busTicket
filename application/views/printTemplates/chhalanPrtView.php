@@ -1,6 +1,13 @@
+<script>
+    window.onload = function () {
+  window.print();
+  setTimeout(function(){window.close();}, 1);
+} 
+</script>
 <style>
     table, th, td{
-      border-collapse: collapse; border: 1px solid #000;  
+      border-collapse: collapse; border: 1px solid #000; 
+      padding: 4px;
     }
     </style>
     <?php
@@ -17,7 +24,7 @@ if (!empty($bookingInfoC)) {
         $fromTime = $data->from_time;
         $to = $data->to;
         $toTime = $data->to_time;
-        $price = $data->price_per_seat;
+        $pricePseat = $data->price_per_seat;
     }
     ?>  
 
@@ -73,6 +80,8 @@ if (!empty($bookingInfoC)) {
                     <th>Contact No.</th>
                 </tr>
                 <?php $i=1;
+                $total_price_sum = 0; 
+                
                 foreach ($bookingInfoC as $booker) {
                     $id = $booker->Id;
                     $name = $booker->Booking_person_name;
@@ -84,6 +93,14 @@ if (!empty($bookingInfoC)) {
                     $noOfSeats = $result - 1;
                     $busId = $booker->bus_id;
                     $contact = $booker->phone;
+                    $payment = $booker->payment_status;
+                    $amtPaid = $booker->amount_paid;
+                    $retStat = $booker->return_status;
+                    $totalPrice = $pricePseat*$noOfSeats;
+                    $total_price_sum = $total_price_sum + $totalPrice;
+                    $meal = $booker->food;
+                    $amtRet = $totalPrice - $amtPaid;
+                   
                     ?>
                     <tr style="border-bottom: 1px solid #ccc; text-align: left;">
                         <td><?php echo $i; ?></td>
@@ -93,15 +110,17 @@ if (!empty($bookingInfoC)) {
                         <td><?php echo $to; ?></td>
                         <td><?php echo $seats; ?></td>
                         <td><?php echo $noOfSeats; ?></td>
-                        <td><?php echo $price; ?></td>
-                        <td><?php echo $price * $noOfSeats; ?></td>
-                         <td><?php echo $noOfSeats; ?></td>
-                          <td><?php echo "400" ?></td>
-                           <td><?php echo "400" ?></td>
+                        <td><?php echo $pricePseat; ?></td>
+                        <td><?php if($payment=="Paid"){ echo $totalPrice;}else{    echo 'Not paid';} ?></td>
+                         <td><?php if($meal=="yes"){echo $noOfSeats;} else{ echo "X";} ?></td>
+                         <td><?php if($retStat=="Not Returned" && $amtRet<0){ echo $amtRet*"-1";} else { echo '';} ?></td>
+                           <td><?php if($retStat=="Not Returned" && $amtRet>0){ echo $amtRet;} else { echo '';} ?></td>
                             <td><?php echo $contact; ?></td>
                         
                     </tr>
                 <?php $i++; } ?>
+                    <td colspan="8">Total Amount:</td>
+           <td><?php echo 'Rs.'.$total_price_sum; ?></td>
             </table> 
             <?php
         } else {

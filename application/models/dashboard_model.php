@@ -6,7 +6,7 @@ class Dashboard_model extends CI_Model {
         $this->load->database();
     }
     
-    public function add_new_bus($busName, $busNumber, $from, $fromTime, $to, $toTime, $route, $seats,$price, $image, $user_id) {
+    public function add_new_bus($busName, $busNumber, $from, $fromTime, $to, $toTime, $route, $seats,$price, $image, $user_id, $busType) {
         $data = array(
             'bus_name' => $busName,
             'bus_number' => $busNumber,
@@ -18,7 +18,8 @@ class Dashboard_model extends CI_Model {
             'total_seats' => $seats,
             'price_per_seat' => $price,
             'image'=> $image,
-            'user_id'=> $user_id);
+            'user_id'=> $user_id,
+            'bus_type' => $busType);
 
         $this->db->insert('bus_info', $data);
     }
@@ -35,8 +36,14 @@ class Dashboard_model extends CI_Model {
         $query = $this->db->get('bus_info');
         return $query->result();
     }
-    
-    public function delete_bus($id) {
+    public function get_user_by_bus_id($busId)
+    {
+         $this->db->where('Id', $busId);
+        $query = $this->db->get('bus_info');
+        return $query->result();
+    }
+
+        public function delete_bus($id) {
 
         $this->db->delete('bus_info', array('id' => $id));
     }
@@ -58,11 +65,13 @@ class Dashboard_model extends CI_Model {
         $this->db->update('reservation_info', $data);
     }
 
-    public function add_new_booking_seats($busId, $seats,$from, $to, $depDate, $name, $address, $email, $phone, $remarks)
+    public function add_new_booking_seats($busId, $user_id, $no_of_seat, $seats,$from, $to, $depDate, $name, $address, $email, $phone,$food, $remarks)
     {
         $seat = trim($seats);
         $data = array(
             'bus_id' => $busId,
+            'user_id' => $user_id,
+            'no_of_seats' => $no_of_seat,
             'seats_numbers' => $seat,
             'departing_from' => $from,
             'departing_to' => $to,
@@ -71,6 +80,34 @@ class Dashboard_model extends CI_Model {
             'address' => $address,
             'email' => $email,
             'phone' => $phone,
+            'payment_status' => 'Not Paid',
+            'food' => $food,
+            'booking_status' => 'Active',
+            'remarks' => $remarks);
+
+        $this->db->insert('reservation_info', $data);
+    }
+    
+    public function add_new_booking_seats_dashboard($busId,$user_id, $no_of_seat, $seats,$from, $to, $depDate, $name, $address, $email, $phone, $remarks, $payment, $amtPaid, $retStat, $food)
+    {
+        $seat = trim($seats);
+        $data = array(
+            'bus_id' => $busId,
+            'user_id' => $user_id,
+            'no_of_seats' => $no_of_seat,
+            'seats_numbers' => $seats,
+            'departing_from' => $from,
+            'departing_to' => $to,
+            'depart_date' => $depDate,
+            'Booking_person_name' => $name,
+            'address' => $address,
+            'email' => $email,
+            'phone' => $phone,
+            'payment_status' => $payment,
+            'amount_paid' => $amtPaid,
+            'return_status' => $retStat,
+            'food' => $food,
+            'booking_status' => 'Active',
             'remarks' => $remarks);
 
         $this->db->insert('reservation_info', $data);
@@ -165,4 +202,29 @@ class Dashboard_model extends CI_Model {
         $query = $this->db->get('bus_info');
         return $query->result();
     }
+    
+    public function add_new_query($name, $email, $msg)
+    {
+         $data = array(
+            'name' => $name,
+            'email' => $email,
+            'message' => $msg);
+
+        $this->db->insert('message', $data);
+    }
+    
+    public function get_all_query()
+    {
+        $query = $this->db->get('message');
+        return $query->result();
+    }
+    public function delete_query_msg($id) {
+        $this->db->where('Id', $id);
+        $this->db->delete('message');
+    }
+    
+    
+    
+    
+    
 }

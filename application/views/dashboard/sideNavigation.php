@@ -40,9 +40,9 @@
    
    </li>
    <li class='has-sub'><a href="<?php echo base_url().'index.php/dashboard/newBooking'; ?>"><span>New Booking</span></a></li>
-    class='has-sub'><a href="<?php echo base_url().'index.php/dashboard/viewChhalan'; ?>"><span>Chhalan</span></a></li>
+   <li class='has-sub'><a href="<?php echo base_url().'index.php/dashboard/viewChhalan'; ?>"><span>Chhalan</span></a></li>
    <li class='has-sub'><a href="<?php echo base_url().'index.php/documentation/index'; ?>"><span>Manage Booking</span></a></li>
-   <li class='has-sub'><a href="<?php echo base_url().'index.php/dashboard/test'; ?>"><span>test</span></a></li>
+   <li class='has-sub'><a href="<?php echo base_url().'index.php/dashboard/viewQuery'; ?>"><span>View Queries</span></a></li>
 </ul>
 </div>
 

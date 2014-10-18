@@ -81,8 +81,9 @@ class Dashboard extends CI_Controller {
                $route = $this->input->post('route');
                $seats = $this->input->post('seats');
                $price = $this->input->post('price');
-             
-             $this->dashboard_model->add_new_bus($busName, $busNumber, $from,$fromTime, $to, $toTime, $route, $seats,$price, $image, $user_id);  
+               $busType = $this->input->post('busType');
+            
+             $this->dashboard_model->add_new_bus($busName, $busNumber, $from,$fromTime, $to, $toTime, $route, $seats,$price, $image, $user_id, $busType);  
               $this->session->set_flashdata('message', 'Data sucessfully Added');
                redirect('dashboard/busInfo', 'refresh');
      }}else {
@@ -176,29 +177,32 @@ class Dashboard extends CI_Controller {
             foreach ($user as $id) {
                 $user_id = $id->Id;
             }
-       $booking = $this->dashboard_model->get_booking_info($user_id);
-       foreach ($booking as &$books)
-       {
-           $noOfSeats = $books->no_of_seats;
-           $payment = $books->payment_status;
-           if($payment==NULL || $payment==""){$payStat='Not Paid'; } else {$payStat=$payment;  }
-           $busId= $books->bus_id;
-           $busInfo = $this->dashboard_model->find_bus($busId);
-           foreach ($busInfo as $bus)
-           {
-               $name = $bus->bus_name;
-               $number = $bus->bus_number;
-               $price = $bus->price_per_seat;
-           }
-           $books->busName = $name;
-           $books->busNumber = $number;
-           $books->pricePSeat = $price;
-           $books->totalPrice = $noOfSeats*$price;
-           $books->payStat = $payStat;
-       }
-        unset($books);
-        $json_response = json_encode($booking); 
-        echo $json_response; 
+            
+           $DB_HOST = '127.0.0.1';
+$DB_USER = 'root';
+$DB_PASS = '';
+$DB_NAME = 'bussewa';
+$mysqli = new mysqli($DB_HOST, $DB_USER, $DB_PASS, $DB_NAME); 
+ 
+//$query="select * from reservation_info as A inner join bus_info as B on A.bus_id = B.Id";
+$query = 'SELECT a.Id, a.bus_id, a.user_id, a.no_of_seats, a.seats_numbers, a.departing_from, a.departing_to, a.depart_date, a.Booking_person_name, a.address, a.email, a.phone, a.remarks, a.payment_status, a.amount_paid, a.return_status, a.booking_status, b.bus_name, b.bus_number, b.price_per_seat
+        FROM reservation_info a, bus_info b
+        WHERE a.bus_id = b.Id';
+$result = $mysqli->query($query) or die($mysqli->error.__LINE__);
+
+$arr = array();
+if($result->num_rows > 0) {
+	while($row = $result->fetch_assoc()) {
+		$arr[] = $row;	
+	}
+}
+
+# JSON-encode the response
+$json_response = json_encode($arr);
+
+// # Return the response
+echo $json_response;
+
         }else {
             redirect('login', 'refresh');
         }
@@ -390,17 +394,37 @@ class Dashboard extends CI_Controller {
         {
             $remarks= $_POST['remarks'];
         }
+        if(isset($_POST['payment']))
+        {
+            $payment= $_POST['payment'];
+        }
+        if(isset($_POST['amtPaid']))
+        {
+            $amtPaid= $_POST['amtPaid'];
+        }
+        if(isset($_POST['retStat']))
+        {
+            $retStat= $_POST['retStat'];
+        }
+        if(isset($_POST['food']))
+        {
+            $food= $_POST['food'];
+        }
         $busss= $this->dashboard_model->find_bus_by_number($busNo);
         foreach ($busss as $busInfo){
             $busId = $busInfo->Id;
             $busName = $busInfo->bus_name;
             $from = $busInfo->from;
             $to = $busInfo->to;
+            $user_id = $busInfo->user_id;
         }
-         
-        $this->dashboard_model->add_new_booking_seats($busId, $seats,$from, $to, $depDate, $name, $address, $email, $phone, $remarks);
+        $se = explode(',', $seats);
+        $no = count($se);
+        $no_of_seat = $no - "1";
+        $this->dashboard_model->add_new_booking_seats_dashboard($busId,$user_id, $no_of_seat, $seats,$from, $to, $depDate, $name, $address, $email, $phone, $remarks, $payment, $amtPaid, $retStat, $food);
         $this->bookingEmail($busName, $name, $from, $to, $depDate, $seats, $email);
-        $this->load->view('dashboardPages/thankYou');
+       $this->session->set_flashdata('message', 'Booking Added Sucessfully');
+            redirect('dashboard/bookingInfo', 'refresh'); 
             
     }
     
@@ -448,21 +472,36 @@ class Dashboard extends CI_Controller {
          $this->load->view('dashboardPages/viewChhalan', $data);
     }
     
-    function pagination() {
+    public function viewQuery()
+    {
         if ($this->session->userdata('logged_in')) {
-            $user_id = $_POST['id'];
-            $page = $_GET['page'];
-            $per_page = 9;
-            $start = ($page - 1) * $per_page;
-           $data['bookingInfo'] = $this->dashboard_model->get_booking_info($per_page, $start, $user_id);
-           
-            $this->load->view('dashboard/header');
-                $this->load->view('dashboard/sideNavigation');
-                $this->load->view('dashboardPages/viewBooking', $data);
-        } else {
+         $useremail = $this->session->userdata('useremail');
+            $user = $this->login_model->get_user_info($useremail);
+            foreach ($user as $id) {
+                $user_id = $id->Id;
+            }
+            $data['query'] = $this->dashboard_model->get_all_query();
+             $this->load->view('dashboard/header');
+            $this->load->view('dashboard/sideNavigation');
+            $this->load->view('dashboardPages/queryList', $data);
+            }else {
             redirect('login', 'refresh');
+        } 
         }
-    }
     
-        
+        public function deleteMsg($id=NULL)
+        {
+            if ($this->session->userdata('logged_in')) {
+         $useremail = $this->session->userdata('useremail');
+            $user = $this->login_model->get_user_info($useremail);
+            foreach ($user as $ids) {
+                $user_id = $ids->Id;
+            }
+           $this->dashboard_model->delete_query_msg($id);
+            $this->session->set_flashdata('message', 'Data Deleted Sucessfully');
+            redirect('dashboard/viewQuery', 'refresh'); 
+            }else {
+            redirect('login', 'refresh');
+        }  
+        }
 }

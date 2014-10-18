@@ -37,7 +37,7 @@
 </style>
 <div id="right">
 
-    <h4>Edit Booking&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="<?php echo base_url() . 'index.php/dashboard/busInfo'; ?>">View Buses</a></h4><hr class="topLine" />
+    <h4>Edit Booking&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="<?php echo base_url() . 'index.php/dashboard/bookingInfo'; ?>">View Booking</a></h4><hr class="topLine" />
 
     <!-- hotel selection -->
     <div class="sucessmsg"> 
@@ -62,7 +62,11 @@
        $seatsNo = $booker->seats_numbers;
        $result = count(explode(',',$seatsNo));
        $noOfSeats = $result - 1;
-       $busId = $booker->bus_id; }
+       $busId = $booker->bus_id;
+       $payment = $booker->payment_status;
+       $amtPaid = $booker->amount_paid;
+       $return = $booker->return_status;
+        }
         
        $busInfo = $this->dashboard_model->find_bus($busId);
        foreach ($busInfo as $bus)
@@ -119,17 +123,30 @@
             </label>
         </p>
         
+        
+       <?php if($payment=="Paid"){ ?>
         <p>
-            <label for="user_pass"><input id="paid" name="payment" type="radio" value="Paid"> Paid: <br>
+            <label for="user_pass"><input id="paid" name="payment" type="radio" value="Paid" checked> Paid: <br>
                 <input id="notpaid" name="payment" type="radio" value="Not Paid"> Not Paid: <br>
             </label>
-        </p>
-        
-        <div class="amt"><p>
+        </p><div class="amt" style="display:block;"><p>
             <label for="user_pass">Amount to return: <br>
                 <input id="amountToret" id="to" class="textInput" type="text" size="20"  name="amtToRet" readonly>
             </label>
-            </p></div>
+       </p></div> <?php }else { ?>
+           <p>
+            <label for="user_pass"><input id="paid" name="payment" type="radio" value="Paid"> Paid: <br>
+                <input id="notpaid" name="payment" type="radio" value="Not Paid" checked> Not Paid: <br>
+            </label>
+        </p>
+           <div class="amt"><p>
+            <label for="user_pass">Amount to return: <br>
+                <input id="amountToret" id="to" class="textInput" type="text" size="20"  name="amtToRet" readonly>
+            </label>
+       </p></div> 
+           
+           
+    <?php   } ?>
         
     </div>
     <div style="float: left; width: 300px;">
@@ -164,17 +181,33 @@
             </label>
         </p>
         
-        <div class="amt"><p>
+         <?php if($payment=="Paid"){ ?> <div class="amt" style="display:block;"><p>
+            <label for="user_pass">Paid Amount: <br>
+                <input id="amountGiven" value="<?php echo $amtPaid; ?>"  class="textInput" type="number" size="20" name="amtPaid">
+            </label>
+            </p>
+        
+        <p>
+            
+            <label for="user_pass"><input id="return" name="return" <?php if($return=="Returned"){ echo "checked";} ?> type="radio" value="Returned"> Returned <br>
+                <input id="notreturn" name="return" type="radio" <?php if($return=="Not Returned"){ echo "checked";} ?> value="Not Returned"> Not Returned <br>
+            </label>
+        </p></div><?php }else { ?>
+           
+           <div class="amt"><p>
             <label for="user_pass">Paid Amount: <br>
                 <input id="amountGiven"  class="textInput" type="number" size="20" name="amtPaid">
             </label>
             </p>
         
         <p>
-            <label for="user_pass"><input id="return" name="return" type="radio" value="Returned"> Returned <br>
-                <input id="notreturn" name="return" type="radio" value="Not Returned"> Not Returned <br>
+            <label for="user_pass"><input id="return" name="return" <?php if($return=="Returned"){ echo "checked";} ?> type="radio" value="Returned"> Returned <br>
+                <input id="notreturn" name="return" <?php if($return=="Not Returned"){ echo "checked";} ?> type="radio" value="Not Returned"> Not Returned <br>
             </label>
         </p></div>
+           
+           
+    <?php   } ?>
 
     </div>
     

@@ -12,7 +12,7 @@
     $(document).ready(function() {   
     
 $('.image').click(function(){
-  $("#disablebtnInfo").fadeOut(500);
+   $('#seatError').fadeOut(500);
  var id = $(this).attr('id');
     
     if ($(this).attr("class") == "image") {
@@ -29,7 +29,7 @@ $('.image').click(function(){
   });
   
   
- $('.aaa').click(function(){
+ $('#toPersonal').click(function(){
   var selected = $("#showSelect").text();
   var from = $('#from').val();
             var to = $('#to').val();
@@ -37,8 +37,7 @@ $('.image').click(function(){
             var busName = $('#busName').val();
             var busId = $('#busId').val();
   if(selected=="" || selected==null || selected==","){
-      $("#disablebtnInfo").html('<span class="error_sign">!</span>&nbsp;' + 'Please select the seats');
-                $("#disablebtnInfo").fadeIn(1000);
+                $('#seatError').css({'display': 'block'});
                 return false;
         }
         else{
@@ -55,8 +54,7 @@ $('.image').click(function(){
             'busId': busId},
         success: function(msg)
         {
-            $('#form-side-content-all').css({'display': 'block'});
-                    $('#form-side-content-all').html(msg);
+           $('#myModal').html(msg);
 
         }
          
@@ -64,40 +62,51 @@ $('.image').click(function(){
     }
 }); 
 
+$(".close-error").click(function() {
+                $('.alert').css({'display': 'none'});
+            });
+
+
+
+
 }); 
 
 </script>
-<body>
+
     <?php
     $left = ($noOfSeats + 1) / 2;
     $right = ($noOfSeats + 1) / 2;
-    ?>
-    <style>
-    #top-search-result-full
-    {width: 100%; height: 80px; background-color: #428bca; margin: 0 auto 0 auto; border-bottom: 1px solid #ddd;}
-    #top-from-to-date-show
-    {height: 43px; margin: 0px; padding: 1% 3% 1% 3%; widows: 90%;}
-</style>
-    <div id="top-search-result-full">
-    <h1 style="text-align: center; margin: 0px; color: #fff; padding: 15px 0px 10px 0px;">Select Seats</h1>
-</div>
-<div id="top-from-to-date-show"><table style="border-collapse: collapse; padding: 5px 0px 5px 0px;" width="100%">
-        <tr id="checkinStyle">
+    ?>        
+                
+
+<!-- fro here-->
+<div class="modal-dialog" style="width:80%; margin:106px auto;">
+            <div class="modal-content">
+                <div class="modal-header" style="margin:0 auto 0 auto; background-color:#269abc;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h2 class="modal-title" style="margin:0 auto 0 auto; text-align: center; color: #fff;">Bus Search Result >> Select Your Seats</h2>
+                </div>
+                <div id="top-from-to-date-show" style="padding: 2%; font-size: 20px;"><table style="border-collapse: collapse; padding: 4%;" width="100%">
+                        <tr id="checkinStyle">
             <td><b>From:</b><input type="text" id="from" value="<?php echo $abc['from']; ?>" readonly class="textInput" /></td>
             <td><b>To:</b><input type="text" id="to" value="<?php echo $abc['to']; ?>" readonly class="textInput"/></td>
             <td><b>Date:</b><input type="text" id="depDate" value="<?php echo $abc['depDate']; ?>" readonly class="textInput"/></td>
             <td><b>Bus:</b><input type="text" id="busName" value="<?php echo $bus_name; ?>" readonly class="textInput"/>
                 <input type="hidden" value="<?php echo $id; ?>" id="busId"/></td>      
         </tr>
-    </table>
-</div>
-<span id="disablebtnInfo"></span>
+                    </table>
+                </div>
+                <div id="seatError" class="alert alert-error" style="display:none;">
 
-               
-                
-    <div id="image" style="width: 50%; border: 1px solid #ccc; margin: 0 auto 0 auto;">
-    
-    <?php if(!empty($reservationInfo)){
+                                <span class="close-error">&times;</span>
+
+                                <strong>Error!</strong> Please select seats you like to book.
+
+                </div>
+                <div class="modal-body" style="width:60%; margin: 0 auto;float: left; border: 1px solid #dedede;">
+
+                    
+        <?php if(!empty($reservationInfo)){
      foreach ($reservationInfo as $reserved){
          $seatBooked = $reserved->seats_numbers;     
      }
@@ -363,16 +372,17 @@ $('.image').click(function(){
 
 
 
- <?php } ?>
-    </div>
-
-<div id="top-from-to-date-show"><table style="border-collapse: collapse; padding: 5px 0px 5px 0px;float:none; margin:0 auto;" width="70%" align="center">
-        <tr id="checkinStyle">
-            <td><div id="showSelect" style="height:30px; width: 180px; border: 2px solid #ccc; margin: 0 auto 0 auto; color: red; background-color: #e6e6e6;"></div></td>
-            <td><input type="submit" value="Book Now" class="aaa"/></td>
-                  
-        </tr>
-    </table>
-</div>    
+ <?php } ?>                               
+                </div>  
+                
+               <div class="modal-body" style="width:40%; margin: 0 auto;float: left;">
+                  <div id="showSelect" style="height:100px; width: 80%; border: 1px solid #eee;"></div>  
+                   <button type="button" id="toPersonal" style="background-color:#002166; color: #fff;" class="btn btn-default">Conyinue </button> 
+                </div>  
+                
+                
+                <div class="clearfix"></div>
+            </div>
+        </div>
 
 

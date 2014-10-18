@@ -1,5 +1,5 @@
 <div id="right">
-<h4>Add New Bus&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="<?php echo base_url() . 'index.php/dashboard/busInfo'; ?>">View Buses</a></h4><hr class="topLine" />
+    <h4>View Buses&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="<?php echo base_url() . 'index.php/dashboard/addbus'; ?>">Add New Bus</a></h4><hr class="topLine" />
 
     <!-- hotel selection -->
     <div class="sucessmsg"> 

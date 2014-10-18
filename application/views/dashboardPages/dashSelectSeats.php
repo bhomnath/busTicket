@@ -4,6 +4,7 @@
          $id = $busdata->Id;
          $bus_name = $busdata->bus_name;
          $noOfSeats = $busdata->total_seats;
+         $pricePseat = $busdata->price_per_seat;
      }  
 } ?>
 <script>      
@@ -12,20 +13,58 @@
 $('.image').click(function(){
   $("#disablebtnInfo").fadeOut(500);
  var id = $(this).attr('id');
-    
+ var seatp = $('#pricePSeaT').val();
     if ($(this).attr("class") == "image") {
          $(this).removeClass("image");
          $(this).addClass("image active");
          $(this).attr("src", "<?php echo base_url().'contents/images/select.jpg'; ?>");
-         $("#showSelect").append("<span id=asdf"+ id + ">" + id + ",</span>");    
+         $("#showSelect").append("<span id=asdf"+ id + ">" + id + ",</span>");
+         var a= $('#showSelect').text();
+        var as = a.split(',').length
+        var seats = as - 1;
+         var c = ( seats * seatp );
+        $('input#totalAmt').val(c);
     } else {
         $(this).removeClass("image active");
          $(this).addClass("image");
         $(this).attr("src", "<?php echo base_url().'contents/images/empty.jpg'; ?>");
         $('#asdf'+ id).remove();
+        var a= $('#showSelect').text();
+        var as = a.split(',').length
+        var seats = as - 1;
+         var c = ( seats * seatp );
+        $('input#totalAmt').val(c);
     }
   });
   
+  $('input#amountGiven').bind('keyup', function(e){
+    var amt= $('input#totalAmt').val(); 
+    var a = parseInt(amt);
+       var b = parseInt($(this).val());
+        var c = ( b - a );
+        $('input#amountToret').val(c);
+
+    });
+    
+     $('input[name=payment]').click(function(){
+
+            if($(this).attr("value")=="Paid"){
+                $(".amt").show();
+                $('input#return').attr('checked', 'checked');
+                 
+            }
+
+            if($(this).attr("value")=="Not Paid"){
+                 $('input#amountGiven').val('0');
+                 $('input#amountToret').val('0');
+                  $('input#notreturn').attr('checked', 'checked');
+                  
+                $(".amt").hide();
+            }
+
+        });
+    
+    
   
  $('#bookNowSeats').click(function(){
  var valid = true;
@@ -37,6 +76,16 @@ $('.image').click(function(){
             var remarks = $('#remarks').val();
              var busNo = $('#busNumbers').val();
             var depDate = $('#CheckIn').val();
+           var myRadio = $('input[name=payment]');
+            var payment = myRadio.filter(':checked').val();
+            var amtPaid = $('input#amountGiven').val();
+            var amtRet = $('input#amountToret').val();
+            var ret =  $('input[name=return]');
+             var retStat = ret.filter(':checked').val();
+            var foodRadio = $('input[name=food]');
+            var food = foodRadio.filter(':checked').val();
+           
+            
             if ((busNo == null) || (busNo == "")) {
                 $('#busNumbers').focus();
                 $('#busNumbers').style.border = "solid 1px red";
@@ -81,7 +130,7 @@ $('.image').click(function(){
             valid = false;
         }
         if (valid == false) {
-           //$("#disablebtnInfo").fadeIn(1000);
+            alert('here');
             $("#disablebtnInfo").html(msg);
          }
         else {
@@ -96,7 +145,11 @@ $('.image').click(function(){
                     'address': address,
                     'email': email,
                     'phone': phone,
-                    'remarks': remarks},
+                    'remarks': remarks,
+                    'payment' : payment,
+                    'amtPaid' : amtPaid,
+                    'retStat' : retStat,
+                    'food' : food},
                 success: function(msg)
                 {
                     $('#right').html(msg);
@@ -113,7 +166,7 @@ $('.image').click(function(){
     $left = ($noOfSeats + 1) / 2;
     $right = ($noOfSeats + 1) / 2;
     ?>
-<span id="disablebtnInfo"></span>
+
 
                
                 
@@ -222,7 +275,7 @@ $('.image').click(function(){
 
     </div>
 
-<div style="float: left; margin:0px; padding:1% 3% 1% 3%; width:20%;">
+<div style="float: left; margin:0px; padding:1% 3% 1% 3%; width:300px;">
 
         <p>
             <label for="user_name">Full Name: <br>
@@ -241,6 +294,32 @@ $('.image').click(function(){
                 <textarea id="remarks" placeholder="remarks"></textarea>
             </label>
         </p>
+        
+        <p>
+            <label for="user_remarks">Price Per Seat<br>
+                <input id="pricePSeaT" class="textInput" type="text" size="20" value="<?php echo $pricePseat; ?>" name="pricePSeat" required readonly>
+            </label>
+        </p>
+        
+        <p>
+            <label for="user_pass"><input id="paid" name="payment" type="radio" value="Paid" checked> Paid: <br>
+                <input id="notpaid" name="payment" type="radio" value="Not Paid"> Not Paid: <br>
+            </label>
+        </p>
+        <div class="amt" style="display:block;"><p>
+            <label for="user_pass">Amount to return: <br>
+                <input id="amountToret" id="to" class="textInput" type="text" size="20"  name="amtToRet" readonly>
+            </label>
+       </p></div>
+         <p>
+            <label for="user_phone">Food:<br>
+                <input id="food" type="radio" name="food" value='yes' checked > I want food.
+                <input id="food" type="radio" name="food" value='no' > I don't want food.                
+            </label>
+        </p>
+        
+        
+        
 
 </div>
 
@@ -265,10 +344,32 @@ $('.image').click(function(){
             </label>
         </p>
 
+        <p>
+            <label for="user_pass">Total Price: <br>
+                <input id="totalAmt" id="seats" class="textInput" type="text" size="20" name="totalPrice" required readonly>
+            </label>
+        </p>
+        
+        
+        <div class="amt" style="display:block;"><p>
+            <label for="user_pass">Paid Amount: <br>
+                <input id="amountGiven"  class="textInput" type="number" size="20" name="amtPaid">
+            </label>
+            </p>
+        
+        <p>
+            
+            <label for="user_pass"><input id="return" name="return" type="radio" value="Returned" checked> Returned <br>
+                <input id="notreturn" name="return" type="radio" value="Not Returned" > Not Returned <br>
+            </label>
+        </p></div>
            
     </div>
+
 <div class="clear"></div>        
-            <input type="submit" value="Book Now" class="send" id="bookNowSeats"/>
+ 
+ <input type="submit" value="Book Now" class="send" id="bookNowSeats"/>
+ <span id="disablebtnInfo"></span>
                   
         
     
